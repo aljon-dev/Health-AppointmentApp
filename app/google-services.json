@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934027644497",
+    "project_id": "ruralhealthcare-d8f70",
+    "storage_bucket": "ruralhealthcare-d8f70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934027644497:android:1be579d5728b4bb6c1f270",
+        "android_client_info": {
+          "package_name": "com.example.ruralhealthcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL3JQuQI3vMWCfGc8dkSXLaNb7f3cf-BQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
