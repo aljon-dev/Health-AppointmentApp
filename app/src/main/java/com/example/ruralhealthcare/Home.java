@@ -1,6 +1,8 @@
 package com.example.ruralhealthcare;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,11 +19,27 @@ public class Home extends AppCompatActivity {
 
     NavigationView nav;
 
+    ImageButton ShowNavBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        drawer = findViewById(R.id.NavDrawer);
+        nav = findViewById(R.id.navLayOut);
+
+        ShowNavBtn = findViewById(R.id.ShowNavigation);
+
+
+        ShowNavBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.open();
+            }
+        });
 
 
 
