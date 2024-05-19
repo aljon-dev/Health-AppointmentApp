@@ -24,7 +24,7 @@ public class Register extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
 
-    EditText email,password,confirmpassword,contact,address;
+    EditText email,password,confirmpassword,contact,address,UserEt;
 
 
 
@@ -38,21 +38,23 @@ public class Register extends AppCompatActivity {
         confirmpassword = findViewById(R.id.ConfirmPassword);
         contact = findViewById(R.id.Contact);
         address = findViewById(R.id.Address);
+        UserEt= findViewById(R.id.UsernameEt);
 
         String userEmail = email.getText().toString();
         String userPassword = password.getText().toString();
         String confirmPassword = password.getText().toString();
         String Contacts = contact.getText().toString();
         String Address  = address.getText().toString();
+        String username = UserEt.getText().toString();
 
-        if(userEmail.isEmpty() || userPassword.isEmpty() || confirmPassword.isEmpty() || Contacts.isEmpty() || Address.isEmpty()){
+        if(username.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty() || confirmPassword.isEmpty() || Contacts.isEmpty() || Address.isEmpty()){
 
             Toast.makeText(this, "Fill the fields", Toast.LENGTH_SHORT).show();
 
             if(!userPassword.equals(confirmPassword)){
                 Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show();
             }else{
-                Register(userEmail,userPassword,Contacts,Address);
+                Register(userEmail,username,userPassword,Contacts,Address);
             }
 
 
@@ -60,7 +62,7 @@ public class Register extends AppCompatActivity {
 
 
     }
-    private void Register(String email,String password,String contact,String address){
+    private void Register(String email,String username,String password,String contact,String address){
 
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -70,6 +72,7 @@ public class Register extends AppCompatActivity {
                     Users user = new Users();
 
                     user.setUid(users.getUid());
+                    user.setUser(username);
                     user.setEmail(email);
                     user.setContact(contact);
                     user.setAddress(address);
