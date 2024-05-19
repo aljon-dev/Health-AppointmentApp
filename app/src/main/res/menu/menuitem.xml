@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/g1">
+
+        <item android:id="@+id/NavHome"
+            android:icon="@drawable/baseline_house_24"
+            android:title="Home" />
+
+
+        <item android:id="@+id/NavManage"
+            android:icon="@drawable/baseline_house_24"
+            android:title="Manage Account" />
+
+
+        <item android:id="@+id/NavSearch"
+            android:icon="@drawable/baseline_house_24"
+
+            android:title="Search Doctor" />
+
+
+        <item android:id="@+id/NavAbout"
+            android:icon="@drawable/baseline_house_24"
+            android:title="About " />
+
+
+
+    </group>
+
+
+    <group android:id="@+id/g2">
+
+        <item android:id="@+id/NavSignOut"
+            android:icon="@drawable/baseline_house_24"
+            android:title="Sign Out " />
+
+
+    </group>
+
+</menu>
