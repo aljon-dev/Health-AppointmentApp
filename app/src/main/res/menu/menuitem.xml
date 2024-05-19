@@ -9,18 +9,19 @@
 
 
         <item android:id="@+id/NavManage"
-            android:icon="@drawable/baseline_house_24"
+
+            android:icon="@drawable/baseline_manage_accounts_24"
             android:title="Manage Account" />
 
 
         <item android:id="@+id/NavSearch"
-            android:icon="@drawable/baseline_house_24"
+            android:icon="@drawable/baseline_person_search_24"
 
             android:title="Search Doctor" />
 
 
         <item android:id="@+id/NavAbout"
-            android:icon="@drawable/baseline_house_24"
+            android:icon="@drawable/baseline_info_24"
             android:title="About " />
 
 
@@ -31,7 +32,7 @@
     <group android:id="@+id/g2">
 
         <item android:id="@+id/NavSignOut"
-            android:icon="@drawable/baseline_house_24"
+            android:icon="@drawable/baseline_logout_24"
             android:title="Sign Out " />
 
 

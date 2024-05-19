@@ -19,6 +19,7 @@
         app:headerLayout="@layout/menu_header"
         app:itemTextColor="@color/white"
         android:backgroundTint="#00588A"
+        app:itemIconTint="@color/white"
         app:menu="@menu/menuitem"
         android:layout_gravity="start"
 

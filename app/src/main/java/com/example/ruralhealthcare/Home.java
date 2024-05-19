@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Home extends AppCompatActivity {
 
@@ -20,6 +21,11 @@ public class Home extends AppCompatActivity {
     NavigationView nav;
 
     ImageButton ShowNavBtn;
+
+    FirebaseDatabase firebaseDatabase;
+
+
+
 
 
     @Override
@@ -32,7 +38,6 @@ public class Home extends AppCompatActivity {
         nav = findViewById(R.id.navLayOut);
 
         ShowNavBtn = findViewById(R.id.ShowNavigation);
-
 
         ShowNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override

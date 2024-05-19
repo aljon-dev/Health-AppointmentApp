@@ -1,5 +1,6 @@
 package com.example.ruralhealthcare;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -62,7 +63,8 @@ public class Register extends AppCompatActivity {
 
 
     }
-    private void Register(String email,String username,String password,String contact,String address){
+    @SuppressLint("NotConstructor")
+    private void Register(String email, String username, String password, String contact, String address){
 
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -76,8 +78,6 @@ public class Register extends AppCompatActivity {
                     user.setEmail(email);
                     user.setContact(contact);
                     user.setAddress(address);
-
-
                     firebaseDatabase.getReference().child("Patients").child(users.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -87,13 +87,11 @@ public class Register extends AppCompatActivity {
                                 firebaseDatabase.getReference().child("Patients").child(users.getUid()).setValue(user);
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-
+                            Toast.makeText(Register.this, "Error", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
                     else if(task.getException() instanceof FirebaseAuthUserCollisionException ) {
                     Toast.makeText(Register.this, "This Account is Already Exist ", Toast.LENGTH_SHORT).show();
