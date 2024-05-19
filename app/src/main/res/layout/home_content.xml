@@ -9,6 +9,8 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+
         >
 
         <LinearLayout
@@ -19,6 +21,7 @@
 
 
             <ImageButton
+                android:id="@+id/ShowNavigation"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@mipmap/ic_launcher_round"/>
@@ -75,7 +78,7 @@
                 android:orientation="vertical">
 
                 <TextView
-
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -87,7 +90,7 @@
 
 
                 <TextView
-
+                    android:id="@+id/userAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -98,7 +101,7 @@
 
 
                 <TextView
-
+                    android:id="@+id/userNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
