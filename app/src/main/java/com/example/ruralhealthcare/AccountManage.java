@@ -124,36 +124,36 @@ public class AccountManage extends AppCompatActivity {
 
     }
     private void changeUsername() throws InterruptedException {
-        synchronized (lock) {
-            lock.wait();
-            // Simulate username change
-            mainThreadHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    // Update UI here if needed
-                    Toast.makeText(AccountManage.this, "Username Changed", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+      synchronized (lock){
+          lock.wait();
+          mainThreadHandler.post(new Runnable() {
+              @Override
+              public void run() {
+                  Toast.makeText(AccountManage.this, "Aica Be My Wife", Toast.LENGTH_SHORT).show();
+              }
+          });
+      }
     }
     private void changeUsernameConfirm() throws InterruptedException {
-        synchronized (lock) {
-            mainThreadHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog.Builder youSure = new AlertDialog.Builder(AccountManage.this);
-                    youSure.setTitle("Confirm");
-                    youSure.setMessage("Are you sure you want to change the username?");
-                    youSure.setPositiveButton("Confirm", (dialog, which) -> {
-                        synchronized (lock) {
-                            lock.notify();
-                        }
-                    });
-                    youSure.show();
-                }
-            });
-            Thread.sleep(2000); // Simulating a delay
-        }
+      mainThreadHandler.post(new Runnable() {
+          @Override
+          public void run() {
+              AlertDialog.Builder YouSure = new AlertDialog.Builder(AccountManage.this);
+              YouSure.setTitle("Are You Sure About this");
+              YouSure.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                      synchronized (lock){
+                          lock.notify();
+                      }
+                  }
+              });
+              YouSure.show();
+          }
+
+      });
+      Thread.sleep(2000);
+
     }
 
     private void ChangerAddress(){
