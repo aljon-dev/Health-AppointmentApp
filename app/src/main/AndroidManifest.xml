@@ -22,6 +22,11 @@
             android:name=".Login"
             android:exported="false" />
         <activity
+            android:name=".AccountManage"
+            android:exported="false" />
+        <activity
+
+
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>

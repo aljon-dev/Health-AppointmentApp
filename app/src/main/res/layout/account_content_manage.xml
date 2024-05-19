@@ -66,7 +66,6 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_launcher_background" />
 
-
             </LinearLayout>
 
 
@@ -99,7 +98,6 @@
                     android:textSize="15dp"
                     android:text="Address"/>
 
-
                 <TextView
                     android:id="@+id/userNumber"
                     android:layout_width="wrap_content"
@@ -118,6 +116,25 @@
 
 
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/EditAccount"
+        app:cornerRadius="0dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_height="wrap_content"
+        android:text="Edit Your Account" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ChangeProfile"
+        app:cornerRadius="0dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_height="wrap_content"
+        android:text="Change Profile" />
+
 
 
 </LinearLayout>

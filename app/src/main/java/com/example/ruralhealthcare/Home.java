@@ -1,6 +1,8 @@
 package com.example.ruralhealthcare;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -76,6 +78,30 @@ public class Home extends AppCompatActivity {
            drawer.open();
            });
 
+        //Navigations Functions
+        nav.setNavigationItemSelectedListener(menuItem -> {
+            int item = menuItem.getItemId();
+
+            if(item == R.id.NavHome){
+
+            }else if (item == R.id.NavManage){
+                Intent intent = new Intent(Home.this,AccountManage.class);
+                intent.putExtra("PatiendId",PatientId);
+                startActivity(intent);
+            }else if(item == R.id.NavSearch){
+
+            }else if(item == R.id.NavAbout){
+
+            }else if(item == R.id.NavSignOut){
+
+            }
+
+
+
+            return false;
+        });
+
+
 
 
     }
@@ -92,7 +118,6 @@ public class Home extends AppCompatActivity {
                 UserNumber.setText(users.getContact());
 
                 Glide.with(Home.this).load(users.getProfile()).error(R.drawable.logo).into(UserProfile);
-
 
             }
 
