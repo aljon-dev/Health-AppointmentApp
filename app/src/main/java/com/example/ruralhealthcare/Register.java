@@ -2,6 +2,7 @@ package com.example.ruralhealthcare;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,12 +28,15 @@ public class Register extends AppCompatActivity {
 
     EditText email,password,confirmpassword,contact,address,UserEt;
 
-
+    Button Register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        auth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
         email = findViewById(R.id.EmailEt);
         password = findViewById(R.id.passwordEt);
@@ -40,30 +44,35 @@ public class Register extends AppCompatActivity {
         contact = findViewById(R.id.Contact);
         address = findViewById(R.id.Address);
         UserEt= findViewById(R.id.UsernameEt);
+        Register = findViewById(R.id.register);
 
-        String userEmail = email.getText().toString();
-        String userPassword = password.getText().toString();
-        String confirmPassword = password.getText().toString();
-        String Contacts = contact.getText().toString();
-        String Address  = address.getText().toString();
-        String username = UserEt.getText().toString();
 
-        if(username.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty() || confirmPassword.isEmpty() || Contacts.isEmpty() || Address.isEmpty()){
 
-            Toast.makeText(this, "Fill the fields", Toast.LENGTH_SHORT).show();
+        Register.setOnClickListener(v ->{
 
-            if(!userPassword.equals(confirmPassword)){
-                Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show();
+            String userEmail = email.getText().toString();
+            String userPassword = password.getText().toString();
+            String confirmPassword = password.getText().toString();
+            String Contacts = contact.getText().toString();
+            String Address  = address.getText().toString();
+            String username = UserEt.getText().toString();
+
+
+            if(username.isEmpty() || userEmail.isEmpty() || userPassword.isEmpty() || confirmPassword.isEmpty() || Contacts.isEmpty() || Address.isEmpty()){
+
+                Toast.makeText(this, "Fill the fields", Toast.LENGTH_SHORT).show();
+                
+                }else if(!userPassword.equals(confirmPassword)){
+                Toast.makeText(this, "Password should be match", Toast.LENGTH_SHORT).show();
             }else{
                 Register(userEmail,username,userPassword,Contacts,Address);
             }
+        });
 
-
-        }
 
 
     }
-    @SuppressLint("NotConstructor")
+
     private void Register(String email, String username, String password, String contact, String address){
 
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -78,6 +87,7 @@ public class Register extends AppCompatActivity {
                     user.setEmail(email);
                     user.setContact(contact);
                     user.setAddress(address);
+                    user.setProfile("");
                     firebaseDatabase.getReference().child("Patients").child(users.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -85,6 +95,8 @@ public class Register extends AppCompatActivity {
                                 Toast.makeText(Register.this, "This Account is Register  ", Toast.LENGTH_SHORT).show();
                             } else {
                                 firebaseDatabase.getReference().child("Patients").child(users.getUid()).setValue(user);
+                                Toast.makeText(Register.this, "Register Successfull", Toast.LENGTH_SHORT).show();
+                                Register.this.finish();
                             }
                         }
                         @Override

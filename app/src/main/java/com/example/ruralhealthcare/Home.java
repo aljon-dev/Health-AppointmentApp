@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -90,8 +91,9 @@ public class Home extends AppCompatActivity {
                 UserAddress.setText(users.getAddress());
                 UserNumber.setText(users.getContact());
 
+                Glide.with(Home.this).load(users.getProfile()).error(R.drawable.logo).into(UserProfile);
 
-                Glide.with(this)
+
             }
 
             @Override

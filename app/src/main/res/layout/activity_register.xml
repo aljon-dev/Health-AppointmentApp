@@ -51,13 +51,13 @@
                 android:id="@+id/EmailEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:inputType="text"
-                android:drawableLeft="@drawable/baseline_email_24"
-                android:hint=" Email"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:textColorHint="@color/white"/>
+                android:backgroundTint="@color/white"
+                android:drawableLeft="@drawable/baseline_email_24"
+                android:hint="Email"
+                android:inputType="text"
+                android:textColorHint="@color/white" />
 
             <EditText
                 android:id="@+id/UsernameEt"
@@ -122,6 +122,7 @@
                 android:textColorHint="@color/white" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Register"
