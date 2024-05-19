@@ -84,7 +84,9 @@ private void SignIn (String email, String password ){
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
                     Intent intent = new Intent(Login.this,Home.class);
+                    intent.putExtra("PatiendId",firebaseUser.getUid());
                     Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }else{

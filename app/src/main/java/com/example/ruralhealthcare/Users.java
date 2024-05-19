@@ -2,7 +2,7 @@ package com.example.ruralhealthcare;
 
 public class Users {
 
-    String uid,user,email,contact,address,profile;
+    String uid,username,email,contact,address,profile;
 
 
     public Users(){
@@ -49,11 +49,11 @@ public class Users {
         this.profile = profile;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

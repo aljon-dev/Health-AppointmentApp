@@ -74,7 +74,7 @@ public class Register extends AppCompatActivity {
                     Users user = new Users();
 
                     user.setUid(users.getUid());
-                    user.setUser(username);
+                    user.setUsername(username);
                     user.setEmail(email);
                     user.setContact(contact);
                     user.setAddress(address);
