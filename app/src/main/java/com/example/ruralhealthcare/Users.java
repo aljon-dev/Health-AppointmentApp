@@ -1,5 +1,7 @@
 package com.example.ruralhealthcare;
 
+import android.widget.TextView;
+
 public class Users {
 
     String uid,username,email,contact,address,profile;
