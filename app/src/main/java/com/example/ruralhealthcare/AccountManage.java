@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.service.chooser.ChooserAction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -61,32 +62,9 @@ public class AccountManage extends AppCompatActivity {
 
         executorService = Executors.newFixedThreadPool(2);
         mainThreadHandler = new Handler(Looper.getMainLooper());
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button.setOnClickListener( v-> {
 
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            changeUsername();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            changeUsernameConfirm();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
 
-            }
         });
 
 
@@ -119,42 +97,30 @@ public class AccountManage extends AppCompatActivity {
     private void ActionDialog(){
         AlertDialog.Builder chooseAction = new AlertDialog.Builder(AccountManage.this);
         chooseAction.setTitle("Choose Action To Edit Account");
-        CharSequence ActionPick [] = {"A"};
+        CharSequence ActionPick [] = {"Change Username","Change Password","Change Address","Change Contact"};
 
 
-    }
-    private void changeUsername() throws InterruptedException {
-      synchronized (lock){
-          lock.wait();
-          mainThreadHandler.post(new Runnable() {
-              @Override
-              public void run() {
-                  Toast.makeText(AccountManage.this, "Aica Be My Wife", Toast.LENGTH_SHORT).show();
-              }
-          });
-      }
-    }
-    private void changeUsernameConfirm() throws InterruptedException {
-      mainThreadHandler.post(new Runnable() {
-          @Override
-          public void run() {
-              AlertDialog.Builder YouSure = new AlertDialog.Builder(AccountManage.this);
-              YouSure.setTitle("Are You Sure About this");
-              YouSure.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                  @Override
-                  public void onClick(DialogInterface dialog, int which) {
-                      synchronized (lock){
-                          lock.notify();
-                      }
-                  }
-              });
-              YouSure.show();
-          }
+        chooseAction.setItems(ActionPick, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                }
+                else if(which == 1){
 
-      });
-      Thread.sleep(2000);
+                }else if (which == 2){
+
+                }else if (which == 3){
+
+                }
+            }
+        });
+        chooseAction.show();
 
     }
+    private void changeUsername() {
+
+    }
+
 
     private void ChangerAddress(){
 
