@@ -50,7 +50,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        String PatientId = getIntent().getStringExtra("PatiendId");
+        String PatientId = getIntent().getStringExtra("PatientId");
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -86,7 +86,7 @@ public class Home extends AppCompatActivity {
 
             }else if (item == R.id.NavManage){
                 Intent intent = new Intent(Home.this,AccountManage.class);
-                intent.putExtra("PatiendId",PatientId);
+                intent.putExtra("PatientId",PatientId);
                 startActivity(intent);
             }else if(item == R.id.NavSearch){
 
@@ -123,7 +123,7 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(Home.this, "Failed to load", Toast.LENGTH_SHORT).show();
             }
         });
 

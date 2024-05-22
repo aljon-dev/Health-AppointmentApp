@@ -64,8 +64,6 @@ public class Login extends AppCompatActivity {
         LoginBtn = findViewById(R.id.loginBtn);
 
 
-       executorService = Executors.newSingleThreadExecutor();
-         mainThreadHandler = new Handler(Looper.getMainLooper());
 
 
         SignUp.setOnClickListener(v ->  {
@@ -91,27 +89,12 @@ private void SignIn (String email, String password ){
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(task.isSuccessful()){
-                           mainThreadHandler.post(new Runnable() {
-                               @Override
-                               public void run() {
 
-                                   FirebaseUser firebaseUser = auth.getCurrentUser();
-                                   Intent intent = new Intent(Login.this,Home.class);
-                                   intent.putExtra("PatiendId",firebaseUser.getUid());
-                                   Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                   startActivity(intent);
-
-                               }
-                           });
-                        }else{
-                            Toast.makeText(Login.this, "Invalid Email & Password ", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                FirebaseUser firebaseUser = auth.getCurrentUser();
+                Intent intent = new Intent(Login.this,Home.class);
+                intent.putExtra("PatientId",firebaseUser.getUid());
+                Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
 
             }
 
