@@ -35,7 +35,6 @@
             android:icon="@drawable/baseline_logout_24"
             android:title="Sign Out " />
 
-
     </group>
 
 </menu>
