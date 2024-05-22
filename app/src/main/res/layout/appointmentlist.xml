@@ -21,7 +21,7 @@
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/DoctorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -32,6 +32,7 @@
 
 
             <TextView
+                android:id="@+id/Doctor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -41,12 +42,13 @@
                 android:text="Position Role" />
 
             <TextView
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
-                android:textSize="15dp"
-                android:text="Room 205 2nd Floor" />
+                android:layout_marginTop="5dp"
+                android:text="Waiting"
+                android:textSize="15dp" />
 
 
 
@@ -61,7 +63,7 @@
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/timeframe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -72,6 +74,7 @@
 
 
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -79,15 +82,6 @@
 
                 android:textSize="20dp"
                 android:text="1/24/24"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
-                android:textSize="15dp"
-                android:text="Waiting" />
-
-
 
 
         </LinearLayout>
