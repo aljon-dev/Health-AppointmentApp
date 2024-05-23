@@ -22,10 +22,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,14 +43,10 @@ import java.util.UUID;
 
 public class setAppointment extends AppCompatActivity {
 
-
     private FirebaseDatabase firebaseDatabase;
-
-    private TextView DoctorName,Position ,ServiceDate,ServiceTime;
-
-    private MaterialButton SetDate, SetTime,UploadReceipt,SetAppointment;
-
-
+    private TextView DoctorName, Position, ServiceDate, ServiceTime;
+    private MaterialButton SetDate, SetTime, SetAppointment;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,155 +58,125 @@ public class setAppointment extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        //TextView of Service when you Tap the Services from the Previous Class
+        // Initialize UI components
         DoctorName = findViewById(R.id.DoctorName);
-        Position= findViewById(R.id.Position);
-
-
-        //TextView of data and Set Date Time and Service Date
-        //Buttons
-
+        Position = findViewById(R.id.Position);
         SetDate = findViewById(R.id.SetDateBtn);
         SetTime = findViewById(R.id.SetTimeBtn);
-
-        //TextView
         ServiceDate = findViewById(R.id.ServiceDate);
         ServiceTime = findViewById(R.id.ServiceTime);
-
         SetAppointment = findViewById(R.id.setAppointmentBtn);
 
-        SetAppointment.setOnClickListener(new View.OnClickListener() {
+        // Fetch and display doctor details
+        firebaseDatabase.getReference("Employee").child(admin_id).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!isDestroyed()) {
+                    UserRole userRole = snapshot.getValue(UserRole.class);
+                    if (userRole != null) {
+                        DoctorName.setText(userRole.getUsername());
+                        Position.setText(userRole.getRole());
+                    }
+                }
+            }
 
-                SetAppointments();
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle possible errors
             }
         });
 
+        // Set appointment button listener
+        SetAppointment.setOnClickListener(v -> SetAppointments());
 
+        // Set date button listener
+        SetDate.setOnClickListener(v -> setServiceDate());
 
-        SetDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setServiceDate();
-            }
-        });
-
-        SetTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTime();
-            }
-        });
-
+        // Set time button listener
+        SetTime.setOnClickListener(v -> setTime());
     }
 
-
-    private void setServiceDate(){
-
+    private void setServiceDate() {
         Calendar calendar = Calendar.getInstance();
-
         int years = calendar.get(Calendar.YEAR);
-        int Months = calendar.get(Calendar.MONTH);
-        int Day = calendar.get(Calendar.DAY_OF_MONTH);
+        int months = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(setAppointment.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                if(year < years || month < Months || dayOfMonth < Day){
-                    Toast.makeText(setAppointment.this, "Cannot Set Appointment in the Past Date", Toast.LENGTH_SHORT).show();
-                }else if (year >= years || Months >= month || dayOfMonth >= Day){
-                    ServiceDate.setText(month + 1 + "/" + dayOfMonth + "/" + year);
-                }
-
+        DatePickerDialog datePickerDialog = new DatePickerDialog(setAppointment.this, (view, year, month, dayOfMonth) -> {
+            if (year < years || (year == years && month < months) || (year == years && month == months && dayOfMonth < day)) {
+                Toast.makeText(setAppointment.this, "Cannot set appointment in the past date", Toast.LENGTH_SHORT).show();
+            } else {
+                ServiceDate.setText((month + 1) + "/" + dayOfMonth + "/" + year);
             }
-        },years,Months,Day);
+        }, years, months, day);
         datePickerDialog.show();
     }
 
-    private void setTime(){
-
-
+    private void setTime() {
         Calendar calendar = Calendar.getInstance();
-
-        int hours = calendar.get(Calendar.HOUR);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int mins = calendar.get(Calendar.MINUTE);
 
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(setAppointment.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                view.setIs24HourView(false);
-
-                String AM_PM;
-
-
-                int hourDay =  hourOfDay % 12;
-                if(hourDay == 0) {
-                    hourOfDay = 12; // Handle midnight (12 AM)
-                    AM_PM = "AM";
-
-                }else{
-                    AM_PM = "PM";
-                }
-                String setTime = String.format("%02d:%02d%s",hourOfDay,minute,AM_PM);
-                ServiceTime.setText(setTime);
-
-
-
-            }
-        },hours,mins,false);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(setAppointment.this, (view, hourOfDay, minute) -> {
+            boolean isPM = hourOfDay >= 12;
+            view.setIs24HourView(false);
+            int hourIn12Format = hourOfDay % 12 == 0 ? 12 : hourOfDay % 12;
+            String amPm = isPM ? "PM" : "AM";
+            String setTime = String.format("%02d:%02d %s", hourIn12Format, minute, amPm);
+            ServiceTime.setText(setTime);
+        }, hours, mins, false);
         timePickerDialog.show();
     }
 
-    private void SetAppointments(){
+    private void SetAppointments() {
         String id = String.valueOf(System.currentTimeMillis());
         String PatientId = getIntent().getStringExtra("PatientId");
         String admin_id = getIntent().getStringExtra("Admin");
-        String Doctorname = getIntent().getStringExtra("name");
+        String Patient_name = getIntent().getStringExtra("PatientName");
 
-        ProgressDialog progressDialog = new ProgressDialog(setAppointment.this);
+        progressDialog = new ProgressDialog(setAppointment.this);
         progressDialog.setTitle("Uploading");
         progressDialog.show();
 
-
-
-        //TextView converting to String
-
-        String Name = Doctorname;
+        // TextView converting to String
+        String Name = DoctorName.getText().toString();
         String position = Position.getText().toString();
         String DateService = ServiceDate.getText().toString();
         String TimeService = ServiceTime.getText().toString();
 
         Map<String, Object> SetServices = new HashMap<>();
-
-        SetServices.put("name",Name);
-        SetServices.put("Position",position);
-
-        SetServices.put("Date",DateService);
+        SetServices.put("name", Name);
+        SetServices.put("Position", position);
+        SetServices.put("Date", DateService);
         SetServices.put("Time", TimeService);
-        SetServices.put("Status","Waiting");
-        SetServices.put("PatientId",PatientId);
+        SetServices.put("Status", "Waiting");
+        SetServices.put("PatientId", PatientId);
         SetServices.put("AdminUid", admin_id);
+        SetServices.put("PatientName", Patient_name);
 
+        DatabaseReference employeeRef = firebaseDatabase.getReference("Employee").child(admin_id).child("Appointment").child(id);
+        DatabaseReference patientRef = firebaseDatabase.getReference("Patients").child(PatientId).child("Appointment").child(id);
 
-
-
-
-        firebaseDatabase.getReference("Employee").child(admin_id).child("Appointment").child(id).setValue(SetServices);
-
-
-        firebaseDatabase.getReference("Patients").child(PatientId).child("Appointment").child(id).setValue(SetServices);
-
-
-
-
-
-
-
-
-
+        employeeRef.setValue(SetServices).addOnCompleteListener(task -> {
+            if (isDestroyed()) return;
+            if (task.isSuccessful()) {
+                patientRef.setValue(SetServices).addOnCompleteListener(innerTask -> {
+                    if (isDestroyed()) return;
+                    progressDialog.dismiss();
+                    if (innerTask.isSuccessful()) {
+                        Toast.makeText(setAppointment.this, "Appointment set successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(setAppointment.this, "Failed to set appointment", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(setAppointment.this, "Failed to set appointment", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            if (isDestroyed()) return;
+            progressDialog.dismiss();
+            Toast.makeText(setAppointment.this, "Failed to set appointment", Toast.LENGTH_SHORT).show();
+        });
     }
-
 }

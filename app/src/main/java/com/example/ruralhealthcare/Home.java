@@ -2,20 +2,13 @@ package com.example.ruralhealthcare;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -89,16 +82,17 @@ public class Home extends AppCompatActivity {
 
 
 
-        adapter.OnClickListener(new EmployeeAdapter.onClickListener() {
+        adapter.SetOnItemClickListener(new EmployeeAdapter.onClickListener() {
             @Override
-            public View.OnClickListener onClick(UserRole userRole) {
+            public void onClick(UserRole userRole) {
                 Intent intent = new Intent(Home.this,setAppointment.class);
-                intent.putExtra("PatiendId",PatientId);
+                intent.putExtra("PatientId",PatientId);
                 intent.putExtra("Admin",userRole.getUid());
                 intent.putExtra("name",userRole.getUsername());
+                intent.putExtra("PatientName",Username.getText().toString());
                 startActivity(intent);
 
-                return null;
+
             }
         });
 

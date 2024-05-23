@@ -22,11 +22,11 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ItemHo
 
     onClickListener onClickListener;
 
-    public void OnClickListener(onClickListener onClickListener){
+    public void SetOnItemClickListener(onClickListener onClickListener){
         this.onClickListener = onClickListener;
     }
     public interface onClickListener{
-        View.OnClickListener onClick(UserRole userRole);
+        void onClick(UserRole userRole);
     }
 
     public EmployeeAdapter(Context context, ArrayList<UserRole> userRoles){
@@ -45,7 +45,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ItemHo
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.ItemHolder holder, int position) {
         UserRole userRole = userRoles.get(position);
-        holder.itemView.setOnClickListener(onClickListener.onClick(userRoles.get(position)));
+        holder.itemView.setOnClickListener(v -> onClickListener.onClick(userRoles.get(position)));
         holder.onBind(userRole);
     }
 
