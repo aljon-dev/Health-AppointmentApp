@@ -129,8 +129,9 @@
         android:text="Doctors"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/DoctorList"
         android:layout_width="match_parent"
-        android:layout_height="170dp" />
+        android:layout_height="210dp" />
 
 
     <TextView

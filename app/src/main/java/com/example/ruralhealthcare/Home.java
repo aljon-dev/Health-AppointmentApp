@@ -11,11 +11,14 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
@@ -24,6 +27,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
 
@@ -40,6 +45,11 @@ public class Home extends AppCompatActivity {
     ImageView UserProfile;
 
 
+    RecyclerView DoctorList;
+
+    EmployeeAdapter adapter;
+
+    ArrayList<UserRole> DoctorListItem;
 
 
 
@@ -64,11 +74,50 @@ public class Home extends AppCompatActivity {
         UserNumber = findViewById(R.id.userNumber);
         UserProfile = findViewById(R.id.userProfile);
 
+        DoctorList = findViewById(R.id.DoctorList);
+        DoctorList.setLayoutManager(new LinearLayoutManager(Home.this,LinearLayoutManager.HORIZONTAL,false));
+        DoctorListItem = new ArrayList<>();
+
+        adapter = new EmployeeAdapter(Home.this,DoctorListItem);
+
+        DoctorList.setAdapter(adapter);
 
         DisplayUserInfo(PatientId);
 
 
 
+
+
+
+        adapter.OnClickListener(new EmployeeAdapter.onClickListener() {
+            @Override
+            public View.OnClickListener onClick(UserRole userRole) {
+                Intent intent = new Intent(Home.this,setAppointment.class);
+                intent.putExtra("PatiendId",PatientId);
+                intent.putExtra("Admin",userRole.getUid());
+                intent.putExtra("name",userRole.getUsername());
+                startActivity(intent);
+
+                return null;
+            }
+        });
+
+        firebaseDatabase.getReference("Employee").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    UserRole userRole = ds.getValue(UserRole.class);
+                    DoctorListItem.add(userRole);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Home.this, "Loading Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
         // Show Navigations
