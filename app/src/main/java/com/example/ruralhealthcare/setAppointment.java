@@ -153,6 +153,7 @@ public class setAppointment extends AppCompatActivity {
         SetServices.put("PatientId", PatientId);
         SetServices.put("AdminUid", admin_id);
         SetServices.put("PatientName", Patient_name);
+        SetServices.put("AppointId",id);
 
         DatabaseReference employeeRef = firebaseDatabase.getReference("Employee").child(admin_id).child("Appointment").child(id);
         DatabaseReference patientRef = firebaseDatabase.getReference("Patients").child(PatientId).child("Appointment").child(id);
