@@ -38,11 +38,14 @@ public class Home extends AppCompatActivity {
     ImageView UserProfile;
 
 
-    RecyclerView DoctorList;
+    RecyclerView DoctorList,AppointmentListView;
 
     EmployeeAdapter adapter;
 
     ArrayList<UserRole> DoctorListItem;
+    ArrayList<AppointmentStatus> AppointmentStatusList;
+
+    AppointmentAdapter AppointAdapter;
 
 
 
@@ -68,14 +71,39 @@ public class Home extends AppCompatActivity {
         UserProfile = findViewById(R.id.userProfile);
 
         DoctorList = findViewById(R.id.DoctorList);
+        AppointmentListView = findViewById(R.id.AppointmentListView);
+
         DoctorList.setLayoutManager(new LinearLayoutManager(Home.this,LinearLayoutManager.HORIZONTAL,false));
         DoctorListItem = new ArrayList<>();
-
         adapter = new EmployeeAdapter(Home.this,DoctorListItem);
-
         DoctorList.setAdapter(adapter);
 
         DisplayUserInfo(PatientId);
+
+        AppointmentListView.setLayoutManager(new LinearLayoutManager(this));
+        AppointmentStatusList = new ArrayList<>();
+        AppointAdapter = new AppointmentAdapter(this,AppointmentStatusList);
+
+        AppointmentListView.setAdapter(AppointAdapter);
+
+        firebaseDatabase.getReference("Patients").child(PatientId).child("Appointment").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    AppointmentStatus appointmentStatus = ds.getValue(AppointmentStatus.class);
+                    AppointmentStatusList.add(appointmentStatus);
+                }
+                AppointAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
 
 
 
