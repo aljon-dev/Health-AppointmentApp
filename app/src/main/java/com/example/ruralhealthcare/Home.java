@@ -60,6 +60,7 @@ public class Home extends AppCompatActivity {
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+
         //Navigations
         drawer = findViewById(R.id.NavDrawer);
         nav = findViewById(R.id.navLayOut);
@@ -101,13 +102,6 @@ public class Home extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
 
 
         adapter.SetOnItemClickListener(new EmployeeAdapter.onClickListener() {

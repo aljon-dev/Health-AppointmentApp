@@ -77,7 +77,13 @@ public class Login extends AppCompatActivity {
             String email = Email.getText().toString();
             String password = Password.getText().toString();
 
-            SignIn(email,password);
+            if(email.isEmpty() || password.isEmpty()){
+                Toast.makeText(this, "Please Fill the fields", Toast.LENGTH_SHORT).show();
+            }else{
+                SignIn(email,password);
+            }
+
+
 
 
         });
@@ -89,12 +95,17 @@ private void SignIn (String email, String password ){
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    FirebaseUser firebaseUser = auth.getCurrentUser();
+                    Intent intent = new Intent(Login.this,Home.class);
+                    intent.putExtra("PatientId",firebaseUser.getUid());
+                    Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
 
-                FirebaseUser firebaseUser = auth.getCurrentUser();
-                Intent intent = new Intent(Login.this,Home.class);
-                intent.putExtra("PatientId",firebaseUser.getUid());
-                Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                }else{
+                    Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
 
